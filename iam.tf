@@ -57,4 +57,4 @@ resource "aws_iam_role_policy_attachment" "role-attach" {
 resource "aws_iam_instance_profile" "parameter-store-access" {
   name = "RoboShop_${var.COMPONENT}_${var.ENV}_ParameterStore_Access"
   role = aws_iam_role.parameter-store-access.name
-} 
+}
