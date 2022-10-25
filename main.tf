@@ -12,3 +12,10 @@ resource "aws_spot_instance_request" "spot" {
   subnet_id = data.terraform_remote_state.infra.outputs.app_subnets[count.index]
   wait_for_fulfillment   = true
 }
+
+resource "aws_ec2_tag" "name-tag" {
+  count       = length(local.ALL_INSTANCE_IDS)
+  resource_id = element(local.ALL_INSTANCE_IDS, count.index)
+  key         = "Name"
+  value       = "${var.COMPONENT}-${var.ENV}"
+}
