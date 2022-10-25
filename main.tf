@@ -44,10 +44,17 @@ resource "null_resource" "ansible-apply" {
 }
 
 resource "aws_security_group" "main" {
-  name        = "${var.ENV}-${var.COMPONENT}"
-  description = "${var.ENV}-${var.COMPONENT}"
+  name        = "${var.ENV}-{var.COMPONENT"
+  description = "${var.ENV}-{var.COMPONENT"
   vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
 
+  ingress {
+    description = "rabbitmq"
+    from_port   = 5672
+    to_port     = 5672
+    protocol    = "tcp"
+    cidr_blocks = [data.terraform_remote_state.infra.outputs.vpc_cidr]
+  }
   ingress {
     description = "SSH"
     from_port   = 22
@@ -55,23 +62,13 @@ resource "aws_security_group" "main" {
     protocol    = "tcp"
     cidr_blocks = [data.terraform_remote_state.infra.outputs.vpc_cidr, data.terraform_remote_state.infra.outputs.workstation_ip]
   }
-
-  ingress {
-    description = "APP"
-    from_port   = var.APP_PORT
-    to_port     = var.APP_PORT
-    protocol    = "tcp"
-    cidr_blocks = [data.terraform_remote_state.infra.outputs.vpc_cidr]
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = {
-    Name = "${var.ENV}-${var.COMPONENT}"
+    Name = "${var.env}-rabbitmq"
   }
 }
