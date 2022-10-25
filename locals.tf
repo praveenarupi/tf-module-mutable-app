@@ -1,4 +1,6 @@
 locals {
+  ssh_password          = element(split("/", data.aws_ssm_parameter.ssh_credentials.value), 1)
+  ssh_username          = element(split("/", data.aws_ssm_parameter.ssh_credentials.value), 0)
   SPOT_INSTANCE_IDS     = aws_spot_instance_request.spot.*.spot_instance_id
   ONDEMAND_INSTANCE_IDS = aws_instance.ondemand.*.id
   ALL_INSTANCE_IDS      = concat(local.SPOT_INSTANCE_IDS, local.ONDEMAND_INSTANCE_IDS)
