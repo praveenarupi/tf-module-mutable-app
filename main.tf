@@ -69,6 +69,6 @@ resource "aws_security_group" "main" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "${var.env}-rabbitmq"
+    Name = "${var.ENV}-${var.COMPONENT}"
   }
 }
