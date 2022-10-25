@@ -3,6 +3,7 @@ resource "aws_instance" "ondemand" {
   instance_type          = var.INSTANCES["ONDEMAND"].instance_type
   ami                    = data.aws_ami.ami.image_id
   subnet_id = data.terraform_remote_state.infra.outputs.app_subnets[count.index]
+  vpc_security_group_ids = [aws_security_group.main.id]
 }
 
 resource "aws_spot_instance_request" "spot" {
@@ -11,6 +12,7 @@ resource "aws_spot_instance_request" "spot" {
   ami                    = data.aws_ami.ami.image_id
   subnet_id = data.terraform_remote_state.infra.outputs.app_subnets[count.index]
   wait_for_fulfillment   = true
+  vpc_security_group_ids = [aws_security_group.main.id]
 }
 
 resource "aws_ec2_tag" "name-tag" {
@@ -59,15 +61,6 @@ resource "aws_security_group" "main" {
     protocol    = "tcp"
     cidr_blocks = [data.terraform_remote_state.infra.outputs.vpc_cidr]
   }
-
-  ingress {
-    description = "PROMETHEUS"
-    from_port   = 9100
-    to_port     = 9100
-    protocol    = "tcp"
-    cidr_blocks = [var.PROMETHEUS_IP]
-  }
-
 
   egress {
     from_port   = 0
