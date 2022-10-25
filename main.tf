@@ -44,8 +44,8 @@ resource "null_resource" "ansible-apply" {
 }
 
 resource "aws_security_group" "main" {
-  name        = "${var.ENV}-{var.COMPONENT}"
-  description = "${var.ENV}-{var.COMPONENT}"
+  name        = "${var.ENV}-${var.COMPONENT}"
+  description = "${var.ENV}-${var.COMPONENT}"
   vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
 
   ingress {
