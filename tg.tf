@@ -18,5 +18,6 @@ resource "aws_lb_target_group" "tg" {
     timeout = 4
     port = var.APP_PORT
     unhealthy_threshold = 2
+    path = "/health"
   }
 }
