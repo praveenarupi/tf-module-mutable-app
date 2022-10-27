@@ -49,13 +49,6 @@ resource "aws_security_group" "main" {
   vpc_id      = data.terraform_remote_state.infra.outputs.vpc_id
 
   ingress {
-    description = "rabbitmq"
-    from_port   = 5672
-    to_port     = 5672
-    protocol    = "tcp"
-    cidr_blocks = [data.terraform_remote_state.infra.outputs.vpc_cidr]
-  }
-  ingress {
     description = "SSH"
     from_port   = 22
     to_port     = 22
