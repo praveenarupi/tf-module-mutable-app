@@ -17,3 +17,8 @@ data "terraform_remote_state" "infra" {
     region = "us-east-1"
   }
 }
+
+data "aws_route53_zone" "private" {
+  name         = "roboshop.internal"
+  private_zone = true
+}
