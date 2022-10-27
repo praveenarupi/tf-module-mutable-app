@@ -62,6 +62,13 @@ resource "aws_security_group" "main" {
     protocol    = "tcp"
     cidr_blocks = [data.terraform_remote_state.infra.outputs.vpc_cidr, data.terraform_remote_state.infra.outputs.workstation_ip]
   }
+  ingress {
+    description = "APP"
+    from_port   = var.APP_PORT
+    to_port     = var.APP_PORT
+    protocol    = "tcp"
+    cidr_blocks = [data.terraform_remote_state.infra.outputs.vpc_cidr]
+  }
   egress {
     from_port   = 0
     to_port     = 0
