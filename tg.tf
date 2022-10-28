@@ -6,6 +6,7 @@ resource "aws_lb_target_group_attachment" "tg" {
 }
 
 resource "aws_lb_target_group" "tg" {
+  count                = var.COMPONENT == "frontend" ? 0 : 1
   name                 = "${var.COMPONENT}-${var.ENV}"
   port                 = var.APP_PORT
   protocol             = "HTTP"
@@ -29,7 +30,7 @@ resource "aws_lb_listener_rule" "name-based-rule" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.tg.arn
+    target_group_arn = aws_lb_target_group.tg[0].arn
   }
 
   condition {
