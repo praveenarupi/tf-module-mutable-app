@@ -69,6 +69,13 @@ resource "aws_security_group" "main" {
     protocol    = "tcp"
     cidr_blocks = [data.terraform_remote_state.infra.outputs.vpc_cidr]
   }
+  ingress {
+    description = "PROMETHEUS"
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    cidr_blocks = [var.PROMETHEUS_IP]
+  }
   egress {
     from_port   = 0
     to_port     = 0
