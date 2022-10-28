@@ -24,7 +24,7 @@ resource "aws_lb_target_group" "tg" {
 
 resource "aws_lb_listener_rule" "name-based-rule" {
   listener_arn = data.terraform_remote_state.infra.outputs.private_lb_listener_arn
-  priority     = 100
+  priority     = var.LB_RULE_PRIORITY
 
   action {
     type             = "forward"
