@@ -1,6 +1,6 @@
 resource "aws_lb_target_group_attachment" "tg" {
   count            = length(local.ALL_INSTANCE_IDS)
-  target_group_arn =  var.COMPONENT == "frontend" ? data.terraform_remote_state.infra.outputs.public_tg_arn : aws_lb_target_group.tg.arn
+  target_group_arn =  var.COMPONENT == "frontend" ? data.terraform_remote_state.infra.outputs.public_tg_arn : aws_lb_target_group.tg[0].arn
   target_id        = local.ALL_INSTANCE_IDS[count.index]
   port             = var.APP_PORT
 }
