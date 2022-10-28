@@ -24,6 +24,13 @@ resource "aws_ec2_tag" "name-tag" {
   value       = "${var.COMPONENT}-${var.ENV}"
 }
 
+resource "aws_ec2_tag" "prometheus-tag" {
+  count       = length(local.ALL_INSTANCE_IDS)
+  resource_id = element(local.ALL_INSTANCE_IDS, count.index)
+  key         = "Monitor"
+  value       = "yes"
+}
+
 resource "null_resource" "ansible-apply" {
   triggers = {
     instances = join(",", local.ALL_INSTANCE_IDS)
