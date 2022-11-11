@@ -5,6 +5,13 @@ resource "aws_instance" "ondemand" {
   subnet_id = data.terraform_remote_state.infra.outputs.app_subnets[count.index]
   vpc_security_group_ids = [aws_security_group.main.id]
   iam_instance_profile = aws_iam_instance_profile.parameter-store-access.name
+  lifecycle {
+    ignore_changes = [
+      # Prevents clobbering the tags of attached EBS volumes
+      tags,
+      tags_all
+    ]
+  }
 }
 
 resource "aws_spot_instance_request" "spot" {
