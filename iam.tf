@@ -16,7 +16,7 @@ resource "aws_iam_policy" "parameter-store-access" {
           "ssm:GetParameter"
         ],
         "Resource": [
-          "arn:aws:ssm:us-east-1:209344285891:parameter/mutable*"
+          "arn:aws:ssm:us-east-1:209344285891:parameter/mutable*",
           "arn:aws:ssm:us-east-1:209344285891:parameter/nexus*"
         ]
       },
